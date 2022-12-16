@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-
 app.get("/api/sales", async (req, res) => {
   let { limit, offset, search, genderFilter, sortBy, sortDesc } = req.query;
   let serverItemsLength;
@@ -19,40 +18,25 @@ app.get("/api/sales", async (req, res) => {
       if (fullName.includes(search) && item.gender === genderFilter)
         return item;
     });
-    serverItemsLength = result.length;
-    result = getSortedResult(result, sortBy, sortDesc, offset, limit);
-    if (result.length > 10) {
-      result = result.slice(offset, offset + limit);
-    }
   } else if (search && !genderFilter) {
     //If searching but no filtering
     result = sales.results.filter(item => {
       const fullName = `${item.user.first_name} ${item.user.last_name}`.toLowerCase();
       if (fullName.includes(search)) return item;
     });
-    serverItemsLength = result.length;
-    result = getSortedResult(result, sortBy, sortDesc, offset, limit);
-    if (result.length > 10) {
-      result = result.slice(offset, offset + limit);
-    }
   } else if (genderFilter && !search) {
     //If filtering on gender but no search
     result = sales.results.filter(item => {
       return item.gender === genderFilter;
     });
-    serverItemsLength = result.length;
-    result = getSortedResult(result, sortBy, sortDesc, offset, limit);
-    if (result.length > 10) {
-      result = result.slice(offset, offset + limit);
-    }
   } else {
     //No filter, no search
     result = sales.results;
-    result = getSortedResult(result, sortBy, sortDesc, offset, limit);
-    serverItemsLength = result.length;
-    if (result.length > 10) {
-      result = result.slice(offset, offset + limit);
-    }
+  }
+  serverItemsLength = result.length;
+  result = getSortedResult(result, sortBy, sortDesc, offset, limit);
+  if (result.length > 10) {
+    result = result.slice(offset, offset + limit);
   }
   res.json({ sales: result, serverItemsLength });
 });
@@ -65,8 +49,7 @@ app.get("/api/sales/genders", async (req, res) => {
 app.get("/api/sales/totalRecords", async (req, res) => {
   const serverItemsLength = sales.results.length;
   res.json({ serverItemsLength });
-
-})
+});
 
 function getSortedResult(result, sortBy, sortDesc, offset, limit) {
   if (sortBy && sortDesc !== "undefined") {
@@ -76,8 +59,8 @@ function getSortedResult(result, sortBy, sortDesc, offset, limit) {
       if (result > 10) result = sortedSales.slice(offset, offset + limit);
       else result = sortedSales;
     } else if (sortBy === "full_name") {
-      sortBy = "user.first_name"
-      const sortedSales = sortNestedProp(sortBy, salesCopy, sortDesc)
+      sortBy = "user.first_name";
+      const sortedSales = sortNestedProp(sortBy, salesCopy, sortDesc);
       if (result > 10) result = sortedSales.slice(offset, offset + limit);
       else result = sortedSales;
     }
@@ -105,7 +88,7 @@ function dynamicSort(property, sortDesc) {
 }
 
 function sortNestedProp(prop, arr, sortDesc) {
-  prop = prop.split('.');
+  prop = prop.split(".");
   var len = prop.length;
 
   arr.sort(function(a, b, sortOrder) {
@@ -116,14 +99,14 @@ function sortNestedProp(prop, arr, sortDesc) {
       i++;
     }
     if (a < b) {
-      return sortDesc === 'true' ? -1 : 1;
+      return sortDesc === "true" ? -1 : 1;
     } else if (a > b) {
-      return sortDesc === 'true'  ? 1 : -1;
+      return sortDesc === "true" ? 1 : -1;
     } else {
       return 0;
     }
   });
   return arr;
-};
+}
 
 module.exports = app;

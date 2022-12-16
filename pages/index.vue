@@ -36,6 +36,7 @@ export default {
       loading: true,
       options: {},
       serverItemsLength: 10,
+      lastPageNumber: 0,
       pagination: { current: 1 },
       headers: [
         {
@@ -92,7 +93,8 @@ export default {
       const sortBy = options.sortBy[0];
       const sortDesc = options.sortDesc[0];
       let { itemsPerPage, page } = options;
-      page > 1 ? (page = page - 1) : (page = page);
+      page > 1 && this.lastPageNumber > page ? (page = page) : (page = page - 1);
+      this.lastPageNumber = page;
       const offset = page * itemsPerPage;
       let result;
       result = await this.$axios(
@@ -108,6 +110,7 @@ export default {
       this.pagination.current = 1;
       const itemsPerPage = 10;
       const page = 1;
+      this.lastPageNumber = page;
       const offset = page * itemsPerPage;
       let result;
       result = await this.$axios(
