@@ -127,4 +127,7 @@ export default {
 ::v-deep .v-data-table-header {
   background-color: #1266f1;
 }
+.v-data-table::v-deep th {
+  font-size: 16px !important;
+}
 </style>
