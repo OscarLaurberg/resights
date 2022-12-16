@@ -59,7 +59,7 @@
           <v-btn
             :disabled="!goTo1stPageDisabled"
             color="primary"
-            @click="clearFilter()"
+            @click="goToFirstPage()"
             :style="{ marginLeft: '10px' }"
             >Go to first page</v-btn
           >

@@ -78,15 +78,15 @@ export default {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
     goFirstPage() {
-      this.pagination.current(1);
+      this.pagination.current = 1;
     },
     async clearFilter() {
       this.isLoading = true;
       const result = await this.$axios("/api/sales?limit=10&offset=0");
-      this.pagination.current = 1;
       this.items = await result.data.sales;
-      this.filteredItems = this.items;
+      this.filteredItems = await this.items;
       this.serverItemsLength = await result.data.serverItemsLength;
+      this.pagination.current = 1;
       this.isLoading = false;
     },
     async getDataFromApi(options, search, gender) {
