@@ -82,10 +82,7 @@ export default {
     },
     async clearFilter() {
       this.isLoading = true;
-      const result = await this.$axios("/api/sales?limit=10&offset=0");
-      this.items = await result.data.sales;
-      this.filteredItems = await this.items;
-      this.serverItemsLength = await result.data.serverItemsLength;
+      this.getSearchData("", "");
       this.pagination.current = 1;
       this.isLoading = false;
     },
@@ -110,7 +107,7 @@ export default {
       this.isLoading = true;
       this.pagination.current = 1;
       const itemsPerPage = 10;
-      const page = 1;
+      const page = 0;
       this.lastPageNumber = page;
       const offset = page * itemsPerPage;
       let result;
