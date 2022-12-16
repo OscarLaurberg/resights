@@ -82,10 +82,11 @@ export default {
     },
     async clearFilter() {
       this.isLoading = true;
-      this.pagination.current = 1;
       const result = await this.$axios("/api/sales?limit=10&offset=0");
+      this.pagination.current = 1;
       this.items = await result.data.sales;
       this.filteredItems = this.items;
+      this.serverItemsLength = await result.data.serverItemsLength;
       this.isLoading = false;
     },
     async getDataFromApi(options, search, gender) {
