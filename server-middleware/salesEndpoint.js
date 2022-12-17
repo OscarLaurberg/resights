@@ -15,15 +15,19 @@ app.get("/api/sales", async (req, res) => {
     //Search and genderfilter
     result = sales.results.filter(item => {
       const fullName = `${item.user.first_name} ${item.user.last_name}`.toLowerCase();
-      if (fullName.includes(search) && item.gender === genderFilter)
+      if (fullName.includes(search) && item.gender === genderFilter) {
         return item;
+      } else if (item.email.includes(search) && item.gender === genderFilter) {
+        return item;
+      }
     });
   } else if (search && !genderFilter) {
     //If searching but no filtering
     result = sales.results.filter(item => {
       const fullName = `${item.user.first_name} ${item.user.last_name}`.toLowerCase();
-      if (fullName.includes(search)) return item;
-    });
+      if (fullName.includes(search) ||item.email.includes(search) ) {
+        return item;
+      } });
   } else if (genderFilter && !search) {
     //If filtering on gender but no search
     result = sales.results.filter(item => {

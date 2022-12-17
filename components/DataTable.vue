@@ -45,7 +45,7 @@
             :style="{ maxWidth: '250px', paddingTop: '15px', paddingLeft: '10px' }"
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search name"
+            label="Search name or e-mail"
             outlined
           />
 

@@ -49,8 +49,9 @@ export default {
         { text: "Email", value: "email", width: "25%" },
         { text: "Gender", value: "gender", width: "10%" },
         { text: "Year", value: "year", width: "10%" },
-        { text: "Sales", value: "sales", width: "15%" },
-        { text: "Country", value: "country", width: "15%" },
+        { text: "Sales", value: "sales", width: "10%" },
+        { text: "Currency", value: "currency", width: "10%" },
+        { text: "Country", value: "country", width: "10%" },
       ],
     };
   },
